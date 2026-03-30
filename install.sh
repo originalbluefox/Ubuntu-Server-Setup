@@ -23,7 +23,7 @@ done
 
 function intro(){
     echo "=============================="
-    echo "[Build Server] Ver: 1.0.6"
+    echo "[Build Server] Ver: 1.0.7"
     echo "=============================="
 }
 
@@ -138,6 +138,11 @@ function do_mysql(){
     run_cmd "sudo apt install -y mysql-server"
 }
 
+function do_mariadb(){
+    update_running "Installing MariaDB"
+    run_cmd "sudo apt install -y mariadb"
+}
+
 function do_docker() {
     update_running "Docker Dependencies"
     run_cmd "sudo apt-get update && sudo apt-get install -y ca-certificates curl gnupg"
@@ -172,6 +177,7 @@ for choice in "${ADDR[@]}"; do
             "mysql")   do_mysql ;;
             "docker")  do_docker ;;
             "certbot") do_certbot ;;
+            "mariadb") do_mariadb ;;
         esac
     fi
 done
