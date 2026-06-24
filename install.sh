@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -euo pipefail # Corrected Jun 23 9:20 PM CST; Just realized I actually want this :3
 FORCE=false
 RUN=false
 ENV="PROD"
