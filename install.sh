@@ -1,5 +1,6 @@
 #!/bin/bash
-set -euo pipefail # Corrected Jun 23 9:20 PM CST; Just realized I actually want this :3
+set -euo pipefail
+
 FORCE=false
 RUN=false
 ENV="PROD"
@@ -23,7 +24,7 @@ done
 
 function intro(){
     echo "=============================="
-    echo "[Build Server] Ver: 1.0.7"
+    echo "[Build Server] Ver: 2.0.0"
     echo "=============================="
 }
 
@@ -86,24 +87,39 @@ function update_running(){
     clearTerminal
 }
 
-# --- RENAMED FUNCTIONS TO PREVENT RECURSION ---
+function get_latest_node_lts() {
+    local live_version
+    live_version=$(curl -sL https://registry.npmjs.org/node | grep -o '"lts":"[^"]*' | cut -d'"' -f4 2>/dev/null)
+    
+    if [[ -n "$live_version" ]]; then
+        echo "$live_version"
+    else
+        echo "24.18.0"
+    fi
+}
 
 function do_nvm() {
     update_running "Installing NVM"
-    run_cmd "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash"
+    run_cmd "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash"
     
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
+    update_running "Fetching Latest Node LTS"
+    local lts_version
+    lts_version=$(get_latest_node_lts)
+
     local nodeversion
     if [[ "$FORCE" == false ]]; then
-        read -p "Enter node version [20.18.0]: " input_version
-        nodeversion=${input_version:-"20.18.0"}
+        read -p "Enter node version [$lts_version]: " input_version
+        nodeversion=${input_version:-"$lts_version"}
     else
-        nodeversion="20.18.0"
+        nodeversion="$lts_version"
     fi
 
     run_cmd "nvm install $nodeversion"
+    run_cmd "nvm use $nodeversion"
+    run_cmd "nvm alias default $nodeversion"
 }
 
 function do_nginx(){
@@ -162,7 +178,6 @@ function do_docker() {
     run_cmd "docker --version" 
 }
 
-# --- UPDATED CASE TO USE NEW NAMES ---
 intro
 IFS=',' read -ra ADDR <<< "$OPT_SELECTED"
 
