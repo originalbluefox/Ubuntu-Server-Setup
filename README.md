@@ -7,7 +7,9 @@ Yet another little project to help me in my day to day dev tasks, hope someone f
 
 
 Run me here
-```https://raw.githubusercontent.com/originalbluefox/Ubuntu-Server-Setup/refs/heads/main/install.sh | sudo bash ```
+```
+https://raw.githubusercontent.com/originalbluefox/Ubuntu-Server-Setup/refs/heads/main/install.sh | sudo bash
+```
 
 Currently, this script doesnt have an interface (I forgot to build one)
 So for now, as of ver 1.0.6 you need to use
