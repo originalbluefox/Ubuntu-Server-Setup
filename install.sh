@@ -24,7 +24,7 @@ done
 
 function intro(){
     echo "=============================="
-    echo "[Build Server] Ver: 2.0.0"
+    echo "[Build Server] Ver: 2.1.0"
     echo "=============================="
 }
 
@@ -179,6 +179,12 @@ function do_docker() {
 }
 
 intro
+
+if [[ -z "$OPT_SELECTED" ]]; then
+    echo "Available modules: ${matches[*]}"
+    read -p "Enter modules to install (comma-separated): " OPT_SELECTED
+fi
+
 IFS=',' read -ra ADDR <<< "$OPT_SELECTED"
 
 for choice in "${ADDR[@]}"; do
