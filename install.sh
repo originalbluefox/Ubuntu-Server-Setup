@@ -50,7 +50,7 @@ function clearTerminal(){
 function interrupt(){
     local cmd_info="$1"
     echo -e "\nREADY: $cmd_info"
-    read -p "Execute? (y/n): " confirm
+    read -p "Execute? (y/n): " confirm </dev/tty
     [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || { echo " >>> Skipped."; return 1; }
 }
 
@@ -111,7 +111,7 @@ function do_nvm() {
 
     local nodeversion
     if [[ "$FORCE" == false ]]; then
-        read -p "Enter node version [$lts_version]: " input_version
+        read -p "Enter node version [$lts_version]: " input_version </dev/tty
         nodeversion=${input_version:-"$lts_version"}
     else
         nodeversion="$lts_version"
@@ -129,10 +129,10 @@ function do_nginx(){
     
     update_running "Configuring Nginx"
     local domain_name=${DOMAIN}
-    [[ -z "$domain_name" ]] && read -p "Domain: " domain_name
+    [[ -z "$domain_name" ]] && read -p "Domain: " domain_name </dev/tty
 
     local port_num=${PORT:-3000}
-    [[ -z "$PORT" ]] && read -p "Port [3000]: " p_in && port_num=${p_in:-3000}
+    [[ -z "$PORT" ]] && read -p "Port [3000]: " p_in </dev/tty && port_num=${p_in:-3000}
 
     local config="server { listen 80; server_name $domain_name; location / { proxy_pass http://localhost:$port_num; proxy_http_version 1.1; proxy_set_header Upgrade \$http_upgrade; proxy_set_header Connection 'upgrade'; proxy_set_header Host \$host; proxy_cache_bypass \$http_upgrade; } }"
     
@@ -145,7 +145,7 @@ function do_certbot(){
     run_cmd "sudo apt install -y certbot python3-certbot-nginx"
     
     local d_name=${DOMAIN}
-    [[ -z "$d_name" ]] && read -p "Domain for SSL: " d_name
+    [[ -z "$d_name" ]] && read -p "Domain for SSL: " d_name </dev/tty
     run_cmd "sudo certbot --nginx -d $d_name"
 }
 
@@ -182,7 +182,7 @@ intro
 
 if [[ -z "$OPT_SELECTED" ]]; then
     echo "Available modules: ${matches[*]}"
-    read -p "Enter modules to install (comma-separated): " OPT_SELECTED
+    read -p "Enter modules to install (comma-separated): " OPT_SELECTED </dev/tty
 fi
 
 IFS=',' read -ra ADDR <<< "$OPT_SELECTED"
