@@ -11,7 +11,8 @@ Run me here
 https://raw.githubusercontent.com/originalbluefox/Ubuntu-Server-Setup/refs/heads/main/install.sh | sudo bash
 ```
 
-Currently, this script doesnt have an interface (I forgot to build one)
+~~Currently, this script doesnt have an interface (I forgot to build one)~~
+UPDATE: I built one :3
 So for now, as of ver 1.0.6 you need to use
 --opt "(value)"
 
@@ -20,7 +21,8 @@ Flags:
 --force, skips the y/n prompt for every command.
 
 Pretty much every command without --force asks for permission before running and prints out the command in full. Please read and make sure you execute the right commands for your needs!
-and, as always, be wary of running scripts off the internet. 
+and, as always, 
+## be wary of running scripts off the internet. 
 
 Luckily, as far as I know, this isn't malicious so thats cool!
 
