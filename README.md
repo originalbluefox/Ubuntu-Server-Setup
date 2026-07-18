@@ -1,5 +1,5 @@
 # Ubuntu Server Setup
-## For use with Ubuntu 20.04
+## For use with Ubuntu 20.04 and up
 
 Hiya, Kyra here.
 
